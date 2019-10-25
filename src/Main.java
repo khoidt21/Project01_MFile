@@ -219,7 +219,9 @@ public class Main{
                 case 5 : 
                     mainClass.sortBySize();
                     break;
-                
+                case 6 :
+                    mainClass.printContent(scanner);
+                    break;
                 case 0 :
                     keepRunning = false;
                     break;
@@ -316,7 +318,33 @@ public class Main{
         }
         list(tempFiles);
     }
-     
+    // read file
+    public void printContent(Scanner scanner){
+        System.out.println("Enter absolute path or file (or file name if file placed in default folder) : ");
+        scanner = new Scanner(System.in);
+        String path = scanner.nextLine();
+        File file = new File(path);
+        if(!file.exists() || file.isDirectory()){
+            System.out.println("Invalid path or file is Directory");
+            printContent(scanner);
+        }
+        try{
+            Reader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String currentLine = null;
+            while((currentLine = bufferedReader.readLine()) !=null){
+                System.out.println(currentLine);
+            }
+            bufferedReader.close();
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        
+    } 
     public static void main(String[] args) {
        createMainMenu();
     }

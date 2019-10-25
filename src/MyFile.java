@@ -62,17 +62,4 @@ public class MyFile implements Serializable, Comparable<MyFile> {
     public int compareTo(MyFile myfile) { 
         return this.name.compareTo(myfile.name);
     }
-    
-    /*
-    public int compare(MyFile file1,MyFile file2){
-        if(file1.size == file2.size){
-            return 0;
-        }
-        else if(file1.size > file2.size){
-            return 1;
-        }
-        else 
-            return -1;
-    }
-    */
 }
