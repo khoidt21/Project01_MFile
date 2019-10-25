@@ -168,7 +168,7 @@ public class Main{
         list(foundFiles);
         
     }
-    public static void createMainMenu(){
+    public static void displayMenu(){
         Scanner scanner = new Scanner(System.in);
         Main mainClass = new Main();
         boolean flag = true;
@@ -182,10 +182,10 @@ public class Main{
             System.out.println("6. Read file");
             System.out.println("0. Exit");
             System.out.println("Enter your choice: ");
-            int choice = inputInt(scanner,0,6);
+            int choice = checkInputInteger(scanner,0,6);
             switch(choice){
                 case 1 : 
-                    mainClass.loadFiles(inputPath(scanner));
+                    mainClass.loadFiles(checkInputPathFile(scanner));
                     mainClass.list(files);
                     break;
                 case 2 :
@@ -194,7 +194,7 @@ public class Main{
                     System.out.println("2. Insertion sort");
                     System.out.println("3. Quick sort");
                     System.out.println("Your choice: ");
-                    choice = inputInt(scanner,1,3);
+                    choice = checkInputInteger(scanner,1,3);
                     switch(choice){
                         case 1:
                             mainClass.sort(SortType.SELECTIONSORT);
@@ -231,8 +231,8 @@ public class Main{
         
         }
     }
-    // validate input Integer 
-    public static int inputInt(Scanner scanner,int a,int b){
+    // check input integer
+    public static int checkInputInteger(Scanner scanner,int a,int b){
         try{
             int min,max;
             if(a < b){
@@ -245,23 +245,24 @@ public class Main{
             int result = Integer.parseInt(scanner.nextLine());
             if(result < min || result > max){
                 System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
-                return inputInt(scanner, a, b);
+                return checkInputInteger(scanner, a, b);
             }
             else return result;
             
         }catch(Exception ex){
              System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
-             return inputInt(scanner, a, b);
+             ex.printStackTrace();
+             return checkInputInteger(scanner, a, b);
         }
     }
-    // validate Path
-    public static String inputPath(Scanner scanner){
+    // check input path File
+    public static String checkInputPathFile(Scanner scanner){
         System.out.println("Enter a folder: ");
         String input = scanner.nextLine();
         File file = new File(input);
         if(!file.exists() || !file.isDirectory()){
             System.err.println("Incorrect path");
-            return inputPath(scanner);
+            return checkInputPathFile(scanner);
         }
         return input;
     }
@@ -346,6 +347,6 @@ public class Main{
         
     } 
     public static void main(String[] args) {
-       createMainMenu();
+       displayMenu();
     }
 }
