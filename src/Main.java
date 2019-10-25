@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -20,7 +21,7 @@ import java.util.List;
 public class Main {
 
     //contains a list of MyFile
-    private MyFile[] files;
+    private static MyFile[] files;
 
     //ctor
     public Main() {
@@ -155,6 +156,7 @@ public class Main {
     public void searchFile(String keyword) {
         //save all files which matched given keyword to the list and output the list
         List<MyFile> listFiles = new ArrayList<>();
+        if(files !=null)
         for (MyFile f : files) {
             if (searchFile(f, keyword)) {
                 listFiles.add(f);
@@ -162,9 +164,122 @@ public class Main {
         }
         MyFile[] foundFiles = listFiles.stream().toArray(MyFile[]::new);
         list(foundFiles);
+        
     }
-
+    public static void createMainMenu(){
+        Scanner scanner = new Scanner(System.in);
+        Main mainClass = new Main();
+        boolean keepRunning = true;
+        while(keepRunning){
+            System.out.println("Menu");
+            System.out.println("1. Load files");
+            System.out.println("2. Soft files");
+            System.out.println("3. Search files");
+            System.out.println("4. Sort file by name (descending)");
+            System.out.println("5. Read file");
+            System.out.println("0. Exit");
+            System.out.println("Enter your choice: ");
+            int choice = inputInt(scanner,0,5);
+            switch(choice){
+                case 1 : 
+                    mainClass.loadFiles(inputPath(scanner));
+                    mainClass.list(files);
+                    break;
+                case 2 :
+                    System.out.println("Sort the list of file by using");
+                    System.out.println("1. Selection sort");
+                    System.out.println("2. Insertion sort");
+                    System.out.println("3. Quick sort");
+                    System.out.println("Your choice: ");
+                    choice = inputInt(scanner,1,3);
+                    switch(choice){
+                        case 1:
+                            mainClass.sort(SortType.SELECTIONSORT);
+                            break;
+                        case 2:
+                            mainClass.sort(SortType.INSERTTIONSORT);
+                            break;
+                        case 3:
+                            mainClass.sort(SortType.QUICKSORT);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 3 : 
+                    System.out.println("Enter any keywords to search: ");
+                    mainClass.searchFile(scanner.nextLine());
+                    break;
+                case 4 : 
+                    mainClass.sortByName();
+                    break;
+                case 5 : 
+                    mainClass.printContent(scanner);
+                    break;
+                case 0 :
+                    keepRunning = false;
+                    break;
+                default:
+                    break;
+            }
+        
+        }
+    }
+    // validate input Integer 
+    public static int inputInt(Scanner scanner,int a,int b){
+        try{
+            int min,max;
+            if(a < b){
+                min = a;
+                max = b;
+            }else{
+                max = a;
+                min = b;
+            }
+            int result = Integer.parseInt(scanner.nextLine());
+            if(result < min || result > max){
+                System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
+                return inputInt(scanner, a, b);
+            }
+            else return result;
+            
+        }catch(Exception ex){
+             System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
+             return inputInt(scanner, a, b);
+        }
+    }
+    // validate Path
+    public static String inputPath(Scanner scanner){
+        System.out.println("Enter a folder: ");
+        String input = scanner.nextLine();
+        File file = new File(input);
+        if(!file.exists() || !file.isDirectory()){
+            System.err.println("Incorrect path");
+            return inputPath(scanner);
+        }
+        return input;
+    }
+    // Quick sort
+    private int partition(MyFile[] files,int begin,int end){
+        long pivot = files[end].getSize();
+        int i = (begin - 1);
+        for(int j = begin; j < end;j++){
+            if(files[j].getSize() <= pivot){
+                i++;
+                MyFile tmp = files[i];
+                files[i] = files[j];
+                files[j] = tmp;
+            }
+        }
+        MyFile tmp = files[i+1];
+        files[i+1] = files[end];
+        files[end] = tmp;
+        return i+1;
+    }
+    
+    
     public static void main(String[] args) {
-
+       
+        
     }
 }
