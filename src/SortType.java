@@ -8,7 +8,7 @@
 
 /**
  *
- * @author TrongDuyDao
+ * @author ADMIN
  */
 public enum SortType {
     SELECTIONSORT, INSERTTIONSORT,QUICKSORT;

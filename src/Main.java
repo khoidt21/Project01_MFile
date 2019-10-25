@@ -11,14 +11,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.*;
 
 /**
  *
- * @author TrongDuyDao
+ * @author ADMIN
  */
-public class Main {
+public class Main{
 
     //contains a list of MyFile
     private static MyFile[] files;
@@ -176,7 +178,8 @@ public class Main {
             System.out.println("2. Soft files");
             System.out.println("3. Search files");
             System.out.println("4. Sort file by name (descending)");
-            System.out.println("5. Read file");
+            System.out.println("5. Sort file by size");
+            System.out.println("6. Read file");
             System.out.println("0. Exit");
             System.out.println("Enter your choice: ");
             int choice = inputInt(scanner,0,5);
@@ -214,8 +217,9 @@ public class Main {
                     mainClass.sortByName();
                     break;
                 case 5 : 
-                    mainClass.printContent(scanner);
+                    mainClass.sortBySize();
                     break;
+                
                 case 0 :
                     keepRunning = false;
                     break;
@@ -276,10 +280,44 @@ public class Main {
         files[end] = tmp;
         return i+1;
     }
+    public void quickSort(MyFile[] files,int begin,int end){
+        if(begin < end){
+            int partitionIndex = partition(files, begin, end);
+            quickSort(files, begin,partitionIndex -1);
+            quickSort(files, partitionIndex + 1, end);
+        }
+    }
     
-    
+    // sort by name 
+    public void sortByName(){
+        List<MyFile> tempList = new ArrayList<>();
+        MyFile[] tempFiles = null;
+        if(files !=null){
+            for(MyFile myFile : files){
+                if(myFile.getName().toLowerCase().endsWith(".txt")) tempList.add(myFile);
+                
+            }
+            Collections.sort(tempList); 
+            tempFiles = tempList.stream().toArray(MyFile[]::new);         
+        }
+        list(tempFiles);
+    }
+    // sort by size
+     public void sortBySize(){
+        List<MyFile> tempList = new ArrayList<>();
+        MyFile[] tempFiles = null;
+        if(files !=null){
+            for(MyFile myFile : files){
+                if(myFile.getName().toLowerCase().endsWith(".txt")) tempList.add(myFile);
+                
+            }
+            Collections.sort(tempList,new MyFileSortSize());
+            tempFiles = tempList.stream().toArray(MyFile[]::new);         
+        }
+        list(tempFiles);
+    }
+     
     public static void main(String[] args) {
-       
-        
+       createMainMenu();
     }
 }

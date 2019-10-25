@@ -10,14 +10,14 @@ import java.io.Serializable;
 
 /**
  *
- * @author TrongDuyDao
+ * @author ADMIN
  */
-public class MyFile implements Serializable {
+public class MyFile implements Serializable, Comparable<MyFile> {
     
     //contains information of a File
     
     private String name;
-    private long size;
+    public long size;
     private String fullPath;
 
     public MyFile() {
@@ -57,7 +57,22 @@ public class MyFile implements Serializable {
     public String toString() {
         return String.format("%-20s%-10d", name, size);
     }
+
+    @Override
+    public int compareTo(MyFile myfile) { 
+        return this.name.compareTo(myfile.name);
+    }
     
-    
-    
+    /*
+    public int compare(MyFile file1,MyFile file2){
+        if(file1.size == file2.size){
+            return 0;
+        }
+        else if(file1.size > file2.size){
+            return 1;
+        }
+        else 
+            return -1;
+    }
+    */
 }
