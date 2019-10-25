@@ -25,7 +25,7 @@ public class Main{
     //contains a list of MyFile
     private static MyFile[] files;
 
-    //ctor
+    // contructor Main
     public Main() {
         files = null;
     }
@@ -75,9 +75,9 @@ public class Main{
                 }
             }
             if (i != index) {
-                MyFile temp = files[i];
+                MyFile tempMyFile = files[i];
                 files[i] = files[index];
-                files[index] = temp;
+                files[index] = tempMyFile;
             }
         }
     }
@@ -89,16 +89,16 @@ public class Main{
          loaded files named "files" ascending by file size.*/
         
         if(files !=null){
-            int holePosition;
-            MyFile valueTonInsert;
+            int index;
+            MyFile tempMyFile;
             for(int i=1;i < files.length;i++){
-                valueTonInsert = files[i];
-                holePosition = i;
-                while(holePosition > 0 && files[holePosition - 1].getSize() > valueTonInsert.getSize()){
-                    files[holePosition] = files[holePosition -1];
-                    holePosition = holePosition - 1;
+                tempMyFile = files[i];
+                index = i;
+                while(index > 0 && files[index - 1].getSize() > tempMyFile.getSize()){
+                    files[index] = files[index -1];
+                    index = index - 1;
                 }
-                files[holePosition] = valueTonInsert;
+                files[index] = tempMyFile;
             }
         }
     }
@@ -171,8 +171,8 @@ public class Main{
     public static void createMainMenu(){
         Scanner scanner = new Scanner(System.in);
         Main mainClass = new Main();
-        boolean keepRunning = true;
-        while(keepRunning){
+        boolean flag = true;
+        while(flag){
             System.out.println("Menu");
             System.out.println("1. Load files");
             System.out.println("2. Soft files");
@@ -182,7 +182,7 @@ public class Main{
             System.out.println("6. Read file");
             System.out.println("0. Exit");
             System.out.println("Enter your choice: ");
-            int choice = inputInt(scanner,0,5);
+            int choice = inputInt(scanner,0,6);
             switch(choice){
                 case 1 : 
                     mainClass.loadFiles(inputPath(scanner));
@@ -223,7 +223,7 @@ public class Main{
                     mainClass.printContent(scanner);
                     break;
                 case 0 :
-                    keepRunning = false;
+                    flag = false;
                     break;
                 default:
                     break;
