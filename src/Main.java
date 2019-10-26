@@ -267,10 +267,10 @@ public class Main{
         return input;
     }
     // Quick sort
-    private int partition(MyFile[] files,int begin,int end){
-        long pivot = files[end].getSize();
-        int i = (begin - 1);
-        for(int j = begin; j < end;j++){
+    private int partition(MyFile[] files,int left,int right){
+        long pivot = files[right].getSize();
+        int i = (left - 1);
+        for(int j = left; j < right;j++){
             if(files[j].getSize() <= pivot){
                 i++;
                 MyFile tmp = files[i];
@@ -279,15 +279,15 @@ public class Main{
             }
         }
         MyFile tmp = files[i+1];
-        files[i+1] = files[end];
-        files[end] = tmp;
+        files[i+1] = files[right];
+        files[right] = tmp;
         return i+1;
     }
-    public void quickSort(MyFile[] files,int begin,int end){
-        if(begin < end){
-            int partitionIndex = partition(files, begin, end);
-            quickSort(files, begin,partitionIndex -1);
-            quickSort(files, partitionIndex + 1, end);
+    public void quickSort(MyFile[] files,int left,int right){
+        if(left < right){
+            int partitionIndex = partition(files, left, right);
+            quickSort(files, left,partitionIndex -1);
+            quickSort(files, partitionIndex + 1, right);
         }
     }
     
