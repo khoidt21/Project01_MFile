@@ -177,7 +177,7 @@ public class Main{
             System.out.println("1. Load files");
             System.out.println("2. Soft files");
             System.out.println("3. Search files");
-            System.out.println("4. Sort file by name (descending)");
+            System.out.println("4. Sort file by name DESC");
             System.out.println("5. Sort file by size");
             System.out.println("6. Read file");
             System.out.println("0. Exit");
@@ -220,7 +220,7 @@ public class Main{
                     mainClass.sortBySize();
                     break;
                 case 6 :
-                    mainClass.printContent(scanner);
+                    mainClass.displayContentFile(scanner);
                     break;
                 case 0 :
                     flag = false;
@@ -232,27 +232,27 @@ public class Main{
         }
     }
     // check input integer
-    public static int checkInputInteger(Scanner scanner,int a,int b){
+    public static int checkInputInteger(Scanner scanner,int startIndex,int endIndex){
         try{
             int min,max;
-            if(a < b){
-                min = a;
-                max = b;
+            if(startIndex < endIndex){
+                min = startIndex;
+                max = endIndex;
             }else{
-                max = a;
-                min = b;
+                max = startIndex;
+                min = endIndex;
             }
             int result = Integer.parseInt(scanner.nextLine());
             if(result < min || result > max){
-                System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
-                return checkInputInteger(scanner, a, b);
+                System.out.println("You have to input integer from " + startIndex + " to " + endIndex + ".");
+                return checkInputInteger(scanner, startIndex, endIndex);
             }
             else return result;
             
         }catch(Exception ex){
-             System.out.println("You have to input integer from " + a + " to " + b + ". Retry");
+             System.out.println("You have to input integer from " + startIndex + " to " + endIndex + ".");
              ex.printStackTrace();
-             return checkInputInteger(scanner, a, b);
+             return checkInputInteger(scanner, startIndex, endIndex);
         }
     }
     // check input path File
@@ -261,7 +261,7 @@ public class Main{
         String input = scanner.nextLine();
         File file = new File(input);
         if(!file.exists() || !file.isDirectory()){
-            System.err.println("Incorrect path");
+            System.err.println("Wrong path");
             return checkInputPathFile(scanner);
         }
         return input;
@@ -291,43 +291,43 @@ public class Main{
         }
     }
     
-    // sort by name 
+    // sort file by name 
     public void sortByName(){
-        List<MyFile> tempList = new ArrayList<>();
-        MyFile[] tempFiles = null;
+        List<MyFile> tmpListFile = new ArrayList<>();
+        MyFile[] tmpFiles = null;
         if(files !=null){
             for(MyFile myFile : files){
-                if(myFile.getName().toLowerCase().endsWith(".txt")) tempList.add(myFile);
+                if(myFile.getName().toLowerCase().endsWith(".txt")) tmpListFile.add(myFile);
                 
             }
-            Collections.sort(tempList); 
-            tempFiles = tempList.stream().toArray(MyFile[]::new);         
+            Collections.sort(tmpListFile); 
+            tmpFiles = tmpListFile.stream().toArray(MyFile[]::new);         
         }
-        list(tempFiles);
+        list(tmpFiles);
     }
-    // sort by size
+    // sort file by size
      public void sortBySize(){
-        List<MyFile> tempList = new ArrayList<>();
-        MyFile[] tempFiles = null;
+        List<MyFile> tmpListFile = new ArrayList<>();
+        MyFile[] tmpFiles = null;
         if(files !=null){
             for(MyFile myFile : files){
-                if(myFile.getName().toLowerCase().endsWith(".txt")) tempList.add(myFile);
+                if(myFile.getName().toLowerCase().endsWith(".txt")) tmpListFile.add(myFile);
                 
             }
-            Collections.sort(tempList,new MyFileSortSize());
-            tempFiles = tempList.stream().toArray(MyFile[]::new);         
+            Collections.sort(tmpListFile,new MyFileSortSize());
+            tmpFiles = tmpListFile.stream().toArray(MyFile[]::new);         
         }
-        list(tempFiles);
+        list(tmpFiles);
     }
-    // read file
-    public void printContent(Scanner scanner){
-        System.out.println("Enter absolute path or file (or file name if file placed in default folder) : ");
+    // display content file
+    public void displayContentFile(Scanner scanner){
+        System.out.println("Enter input path file: ");
         scanner = new Scanner(System.in);
         String path = scanner.nextLine();
         File file = new File(path);
         if(!file.exists() || file.isDirectory()){
-            System.out.println("Invalid path or file is Directory");
-            printContent(scanner);
+            System.out.println("Wrong path file or file is directory");
+            displayContentFile(scanner);
         }
         try{
             Reader reader = new FileReader(file);
@@ -338,11 +338,11 @@ public class Main{
             }
             bufferedReader.close();
         }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
+        catch(FileNotFoundException ex){
+            ex.printStackTrace();
         }
-        catch(IOException e){
-            e.printStackTrace();
+        catch(IOException ex){
+            ex.printStackTrace();
         }
         
     } 
