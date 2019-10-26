@@ -170,7 +170,7 @@ public class Main{
     }
     public static void displayMenu(){
         Scanner scanner = new Scanner(System.in);
-        Main mainClass = new Main();
+        Main mainFile = new Main();
         boolean flag = true;
         while(flag){
             System.out.println("Menu");
@@ -185,8 +185,8 @@ public class Main{
             int choice = checkInputInteger(scanner,0,6);
             switch(choice){
                 case 1 : 
-                    mainClass.loadFiles(checkInputPathFile(scanner));
-                    mainClass.list(files);
+                    mainFile.loadFiles(checkInputPathFile(scanner));
+                    mainFile.list(files);
                     break;
                 case 2 :
                     System.out.println("Sort the list of file by using");
@@ -197,13 +197,13 @@ public class Main{
                     choice = checkInputInteger(scanner,1,3);
                     switch(choice){
                         case 1:
-                            mainClass.sort(SortType.SELECTIONSORT);
+                            mainFile.sort(SortType.SELECTIONSORT);
                             break;
                         case 2:
-                            mainClass.sort(SortType.INSERTTIONSORT);
+                            mainFile.sort(SortType.INSERTTIONSORT);
                             break;
                         case 3:
-                            mainClass.sort(SortType.QUICKSORT);
+                            mainFile.sort(SortType.QUICKSORT);
                             break;
                         default:
                             break;
@@ -211,16 +211,16 @@ public class Main{
                     break;
                 case 3 : 
                     System.out.println("Enter any keywords to search: ");
-                    mainClass.searchFile(scanner.nextLine());
+                    mainFile.searchFile(scanner.nextLine());
                     break;
                 case 4 : 
-                    mainClass.sortByName();
+                    mainFile.sortByName();
                     break;
                 case 5 : 
-                    mainClass.sortBySize();
+                    mainFile.sortBySize();
                     break;
                 case 6 :
-                    mainClass.displayContentFile(scanner);
+                    mainFile.displayContentFile(scanner);
                     break;
                 case 0 :
                     flag = false;
@@ -244,13 +244,13 @@ public class Main{
             }
             int result = Integer.parseInt(scanner.nextLine());
             if(result < min || result > max){
-                System.out.println("You have to input integer from " + startIndex + " to " + endIndex + ".");
+                System.out.println("Input integer from " + startIndex + " to " + endIndex + ".");
                 return checkInputInteger(scanner, startIndex, endIndex);
             }
             else return result;
             
         }catch(Exception ex){
-             System.out.println("You have to input integer from " + startIndex + " to " + endIndex + ".");
+             System.out.println("Input integer from " + startIndex + " to " + endIndex + ".");
              ex.printStackTrace();
              return checkInputInteger(scanner, startIndex, endIndex);
         }
